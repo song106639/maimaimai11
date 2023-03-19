@@ -1,0 +1,57 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*版权所有样式*/
+.bottom_nav {
+	display: none;
+}
+
+.footer{
+	border-top:2px solid #42ad46;
+	text-align:center;
+	margin:30px 0;
+}
+.foot_link{
+	margin-top:30px;
+}
+.foot_link a,.foot_link span{
+	color:#4e4e4e;	
+} 
+.foot_link a:hover{
+	color:#ff8888;	
+}
+.foot_link span{
+	padding:0 10px;	
+}
+.footer p{
+	margin-top:10px;
+}
+
+#pagination {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.pagination a{
+	padding: 4px 8px;
+	margin: 4px;
+	border: 1px solid #aaaadd; 
+	text-decoration: none;
+	color: #006699;
+	display:inline-block;
+}
+
+.pagination a:hover {
+	border-color: #FF0000;
+	color: #000;
+}
+
+.pagination .current {
+	font-weight: bold;
+	background-color: #E54915;
+	color: #FFF;
+}
+
+.pagination .show {
+	display: none;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<meta http-equiv="Pragma" content="no-cache"> 
+<meta http-equiv="Cache-Control" content="no-cache"> 
+<meta http-equiv="Expires" content="0"> 
+<title>源辰信息-后台管理</title>
+<link rel="shortcut icon" type="image/x-icon" href="images/yc.png"/>
+<link href="css/login.css" type="text/css" rel="stylesheet"> 
+</head> 
+<body> 
+
+<div class="login">
+    <div class="message">天天生鲜-用户登录</div>
+    <div id="darkbannerwrap"></div>
+    <form id="myform">
+    	<select name="role" id="role">
+    		<option value="1">超级管理员</option>
+    		<option value="1">普通管理员</option>
+    	</select>
+		<hr class="hr15">
+		<input name="username" id="username" placeholder="账号" required type="text" value="navy">
+		<hr class="hr15">
+		<input name="password" id="pwd" placeholder="密码" required type="password" value="123321">
+		<hr class="hr15">
+		<span id="waring-info" style="color:red"></span>
+		<hr class="hr15">
+		<input value="登录" style="width:100%;" type="button" onclick="userLogin()">
+		<hr class="hr20">
+	</form>
+	<div id="adminOp">
+		<a href="pwd.html">忘记密码</a>
+		<a href="reg.html">注册账号</a>
+	</div>
+</div>
+
+<div class="copyright">衡阳市源辰信息科技有限公司 &copy; <a href="http://www.hyycinfo.com" target="_blank">后台管理系统</a></div>
+
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/axios.js"></script>
+<script type="text/javascript" src="../js/qs.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$("#myform input").focus(function(){
+		$(this).removeClass("navy_error");
+		$("#waring-info").text("");
+	})
+	
+	$("#pwd").keyup(function(e) { // 在密码框回车登录
+		if (e.which == 13) {
+			userLogin();
+		}
+	})
+});
+
+function userLogin(){
+	let aname = $.trim($("#username").val());
+	let pwd = $.trim($("#pwd").val());
+	
+	if (aname == "" || pwd == "") {
+		return;
+	}
+	
+	$.post("../admin/login", {aname:aname, pwd:pwd}, rt => {
+		if (rt.code == 200) {
+			location.href="manager/index.html";
+			return;
+		}
+		alert("您输入的账号或密码有误，请确认后重新登录...");
+	}, "json");
+}
+</script>
+</body>
+</html>

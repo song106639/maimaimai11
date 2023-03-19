@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="../images/yc.png" type="image/x-icon">
+<link rel="stylesheet" href="../css/layui.css"  media="all">
+</head>
+<body>
+<br />
+<div class="demoTable">
+	<span class="navy_padding">姓名</span>
+    <div class="layui-inline">
+      <input class="layui-input" name="id"  autocomplete="on">
+    </div>
+   	<span class="navy_padding">手机号码</span>
+    <div class="layui-input-inline">
+       <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+	</div>
+    <button type="button" class="layui-btn layui-btn-radius"> 查询  </button>
+</div>
+<table class="layui-hide" id="user_data" lay-filter="test"></table>
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-xs" lay-event="edit">重置密码</a>
+</script>
+
+<script type="text/html" id="checkboxTpl">
+  <input type="checkbox" name="lock" value="{{d.id}}" title="冻结" lay-filter="lockDemo" {{ d.id == 10006 ? 'checked' : '' }}>
+</script>
+<script src="../js/layui.all.js" charset="utf-8"></script>
+ 
+<script>
+layui.use('table', function(){
+	var table = layui.table, form = layui.form;
+	table.render({
+    	elem: '#user_data',
+		url:'../data/demo1.json?page=1&limit=10',
+		toolbar: '#toolbarDemo', // 开启头部工具栏，并为其绑定左侧模板
+		defaultToolbar: [{
+				title: '添加',
+		    	layEvent: 'add',
+		    	icon: 'layui-icon-add-1'
+			}, 'filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+				title: '提示',
+			    layEvent: 'LAYTABLE_TIPS',
+			    icon: 'layui-icon-tips'
+		}],
+    	title: '管理员信息表',
+    	cellMinWidth: 120,
+    	id: "user_data",
+	    cols: [[
+	      {
+			type: 'checkbox', fixed: 'center'},
+	      	{field:'id', title:'编号',fixed: 'center', unresize: true, sort: true, align: 'center'},
+			{field:'username', title:'用户名', align: 'center', edit: 'text'},
+			{field:'email', title:'邮箱', align: 'center', edit: 'text', templet: function(res){
+	        	return '<em>'+ res.email +'</em>'
+	      	}},
+			{field:'sex', title:'性别', edit: 'text', align: 'center', sort: true},
+			{field:'city', title:'城市', align: 'center'},
+			{field:'logins', title:'登入次数', align: 'center', sort: true},
+			{field:'joinTime', title:'加入时间', align: 'center'},
+			{fixed: 'right', title:'操作', toolbar: '#barDemo', align: 'center'},
+			{field:'status', title:'是否冻结', width:110, templet: '#checkboxTpl', unresize: true}
+	    ]],
+		page: { 
+			layout: ['prev', 'page', 'next', 'count', 'skip', 'limit'], //自定义分页布局
+	      //,curr: 5 // 设定初始在第 5 页
+	      groups: 10, // 只显示 1 个连续页码
+	      first: '首页', //不显示首页
+	      last: '尾页' //不显示尾页
+	      
+	    }
+	});
+	
+	//监听锁定操作
+	form.on('checkbox(lockDemo)', function(obj){
+		layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+	});
+  
+	// 头工具栏事件
+	table.on('toolbar(test)', function(obj){
+    	switch(obj.event){
+	    	case 'add':
+	            layer.msg('添加');
+	          	break;
+		};
+	});
+  
+	// 监听行工具事件
+	table.on('tool', function(obj){
+    	var data = obj.data;
+    	if(obj.event === 'edit'){
+      		layer.prompt({
+        		formType: 3,
+        		value: data.email
+      		}, function(value, index){
+				obj.update({
+					email: value
+        		});
+        		layer.close(index);
+      		});
+		}
+	});
+});
+</script>
+</body>
+</html>

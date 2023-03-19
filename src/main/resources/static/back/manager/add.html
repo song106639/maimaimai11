@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">	
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="../images/yc.png" type="image/x-icon">
+<link rel="stylesheet" href="../css/layui.css"  media="all">
+</head>
+<body>
+<br/>
+<form class="layui-form" action="" style="width:90%">
+	<div class="layui-form-item">
+      	<label class="layui-form-label">商品类型</label>
+      	<div class="layui-input-inline" style="width: 25%">
+        	<select name="modules" lay-verify="required">
+				<option value="">请选择商品类型</option>
+				<option value="1">新鲜蔬菜</option>
+        	</select>
+      	</div>
+		<label class="layui-form-label">商品名称</label>
+    	<div class="layui-input-inline">
+      		<input type="text" name="gname" lay-verify="title" lay-reqtext="商品名称不能为空..." autocomplete="off" placeholder="请输入商品名称" class="layui-input"  style="width: 300px;">
+    	</div>
+	</div>
+	<div class="layui-form-item">
+    	<label class="layui-form-label">商品价格</label>
+    	<div class="layui-input-inline" style="width: 25%">
+      		<input type="text" name="username" lay-verify="required" lay-reqtext="价格不能为空..." placeholder="请输入商品价格" autocomplete="off" class="layui-input" style="width: 200px;">
+		</div>
+		<label class="layui-form-label">商品库存</label>
+    	<div class="layui-input-inline"  style="width: 25%">
+      		<input type="number" name="balance" lay-verify="required|number" lay-reqtext="库存不能为空..." placeholder="请输入商品库存" autocomplete="off" class="layui-input" style="width: 200px;">
+		</div>
+		<label class="layui-form-label">商品单位</label>
+    	<div class="layui-input-inline">
+      		<input type="text" name="unit" lay-verify="required" lay-reqtext="商品单位不能为空..." placeholder="请输入商品单位" autocomplete="off" class="layui-input" style="width: 200px;">
+		</div>
+	</div>
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">商品净重</label>
+    	<div class="layui-input-inline" style="width: 25%">
+      		<input type="text" name="weight" lay-verify="required" lay-reqtext="商品净重不能为空..." placeholder="请输入商品净重" autocomplete="off" class="layui-input" style="width: 200px;">
+		</div>
+		<label class="layui-form-label">保质期</label>
+    	<div class="layui-input-inline" style="width: 25%">
+      		<input type="text" name="qperied" lay-verify="required" lay-reqtext="商品保质期不能为空..." placeholder="请输入商品保质期" autocomplete="off" class="layui-input" style="width: 200px;">
+		</div>
+   		<label class="layui-form-label">商品图片</label>
+   		<div class="layui-input-inline" style="width: 200px;">
+   			<input type="file" name="photo" autocomplete="off" onchange="setImagePreviews(this, 'showpic')" multiple="multiple">
+   		</div>
+	</div>
+	<div class="layui-form-item" style="margin-left: 20px;" id="showpic" ></div>
+	<div class="layui-form-item layui-form-text">
+    	<label class="layui-form-label">商品简介</label>
+    	<div class="layui-input-block">
+      		<textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+    	</div>
+  	</div>
+  	<div class="layui-form-item">
+    	<div class="layui-inline">
+      		<label class="layui-form-label">商品详细</label>
+      		<div class="layui-input-block">
+      			<textarea name="goods_form_descr" id="goods_form_descr" rows="10" cols="80"></textarea>
+      		</div>
+    	</div>
+	</div>
+  	<div class="layui-form-item">
+    	<div class="layui-input-block">
+      		<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+      		<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    	</div>
+	</div>
+</form>
+          
+<script type="text/javascript" src="../../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/layui.all.js" charset="utf-8"></script>
+<script type="text/javascript" src="../js/showpic.js" charset="utf-8"></script>
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
+<script>
+CKEDITOR.replace('goods_form_descr');
+layui.use(['form', 'layedit', 'laydate'], function(){
+	var form = layui.form,
+	layer = layui.layer,
+	layedit = layui.layedit,
+	laydate = layui.laydate;
+  
+	// 自定义验证规则
+	form.verify({
+    	title: function(value){
+      		if(value.length < 2){
+        		return '商品名称至少得2个字符...';
+      		}
+    	}
+	});
+  
+	// 监听提交
+  	form.on('submit(demo1)', function(data){
+  		var obj = JSON.stringify(data.field);
+		console.info(obj)
+		return false;
+	});
+});
+</script>
+</body>
+</html>
