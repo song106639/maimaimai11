@@ -12,7 +12,7 @@
     <artifactId>maimaimai11</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ScheduleSystem</name>
-    <description>ScheduleSystem</description>
+    <description>maimaimai</description>
     <properties>
         <java.version>8</java.version>
     </properties>

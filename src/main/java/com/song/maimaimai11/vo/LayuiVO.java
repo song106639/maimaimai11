@@ -3,13 +3,12 @@ package com.song.maimaimai11.vo;
 import lombok.Data;
 
 @Data
-public class LayuiVO {
+public class  LayuiVO<T> {
     private int code;
     private String msg;
-    private int count;
-    private Object data;//商品数据
+    private T data;//商品数据
 
-    public LayuiVO(int code, Object data) {
+    public LayuiVO(int code, T data) {
         this.code = code;
         this.data = data;
     }

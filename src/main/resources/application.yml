@@ -5,13 +5,16 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/schedulesystem?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/buybb?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 12345678
+    password: 123456
   mvc:
     pathmatch:
       #?????swagger?
       matching-strategy: ant_path_matcher
+  web:
+    resources:
+      static-locations: file:F:\编程\SpringBoot\picture,classpath:/static
 
   #????
   servlet:
