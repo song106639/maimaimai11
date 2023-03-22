@@ -7,20 +7,25 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/buybb?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 123456
+    password: 12345678
   mvc:
     pathmatch:
       #?????swagger?
       matching-strategy: ant_path_matcher
   web:
     resources:
-      static-locations: file:F:\编程\SpringBoot\picture,classpath:/static
+      static-locations: file:///Users/songlianfa/IdeaProjects/resource/images/,classpath:/static
+
 
   #????
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+
+file:
+  upload:
+    url: /Users/songlianfa/IdeaProjects/resource/images
 
 mybatis-plus:
   configuration:

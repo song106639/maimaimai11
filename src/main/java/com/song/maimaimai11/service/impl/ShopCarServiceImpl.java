@@ -32,17 +32,40 @@ public class ShopCarServiceImpl extends ServiceImpl<ShopCarMapper, ShopCar> impl
         double sum=0;
         //商品数量减减去对应的数量
         //同时清空购物车
-        for (ShopCar shopCar : shopList) {
-            ProductInfo productInfo = productInfoMapper.selectById(shopCar.getPno());
-            if(productInfo.getBalance()-shopCar.getCount()<0) throw new NoCountException("商品"+productInfo.getPname()+"库存不足");
-            productInfo.setBalance(productInfo.getBalance()-shopCar.getCount());
-            productInfoMapper.updateById(productInfo);
-            sum+=productInfo.getPrice()*shopCar.getCount();
-            //清空对应的购物车
+        if(shopList.isEmpty()){
+            //得到这个用户所有的购物车信息
             LambdaQueryWrapper<ShopCar> shopCarLqw = new LambdaQueryWrapper<>();
-            shopCarLqw.eq(ShopCar::getId,userId).eq(ShopCar::getPno,shopCar.getPno());
-            shopCarMapper.delete(shopCarLqw);
+            shopCarLqw.eq(ShopCar::getId,userId);
+            List<ShopCar> shopCars = shopCarMapper.selectList(shopCarLqw);
+            for (ShopCar shopCar : shopCars) {
+                ProductInfo productInfo = productInfoMapper.selectById(shopCar.getPno());
+                if(productInfo.getBalance()-shopCar.getCount()<0) throw new NoCountException("商品"+productInfo.getPname()+"库存不足");
+                productInfo.setBalance(productInfo.getBalance()-shopCar.getCount());
+                productInfoMapper.updateById(productInfo);
+                sum+=productInfo.getPrice()*shopCar.getCount();
+                LambdaQueryWrapper<ShopCar> shopcarremove = new LambdaQueryWrapper<>();
+                shopcarremove.eq(ShopCar::getId,userId).eq(ShopCar::getPno,shopCar.getPno());
+                shopCarMapper.delete(shopcarremove);
+            }
+
+        }else {
+            for (ShopCar shopCar : shopList) {
+                ProductInfo productInfo = productInfoMapper.selectById(shopCar.getPno());
+                if(productInfo.getBalance()-shopCar.getCount()<0) throw new NoCountException("商品"+productInfo.getPname()+"库存不足");
+                productInfo.setBalance(productInfo.getBalance()-shopCar.getCount());
+                productInfoMapper.updateById(productInfo);
+                sum+=productInfo.getPrice()*shopCar.getCount();
+                //清空对应的购物车--这里不能清空购物车，如果小于0才会清空
+                LambdaQueryWrapper<ShopCar> shopCarLqw = new LambdaQueryWrapper<>();
+                shopCarLqw.eq(ShopCar::getId,userId).eq(ShopCar::getPno,shopCar.getPno());
+                ShopCar shopCar1 = shopCarMapper.selectOne(shopCarLqw);
+                if(shopCar1==null) throw new NullPointerException();
+                shopCar1.setCount(shopCar1.getCount()-shopCar.getCount());
+                if(shopCar1.getCount()<=0)shopCarMapper.delete(shopCarLqw);
+                else shopCarMapper.update(shopCar1,shopCarLqw);
+            }
         }
+
         //计算商品价格
         User user = userMapper.selectById(userId);
         //结算

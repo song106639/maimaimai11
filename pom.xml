@@ -10,8 +10,8 @@
     </parent>
     <groupId>com.song</groupId>
     <artifactId>maimaimai11</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>ScheduleSystem</name>
+    <version>0.0.1</version>
+    <name>maimaimai</name>
     <description>maimaimai</description>
     <properties>
         <java.version>8</java.version>
@@ -93,6 +93,12 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
